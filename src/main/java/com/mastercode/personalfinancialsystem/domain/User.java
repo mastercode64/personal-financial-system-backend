@@ -14,5 +14,16 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private String email;
+	
+	public User() {		
+	}
+	
+	public User(String nome, String email) {
+		this.nome = nome;
+		this.email = email;
+	}
+	
+	
 
 }

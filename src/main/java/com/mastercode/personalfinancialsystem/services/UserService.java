@@ -28,4 +28,8 @@ public class UserService {
 		Page<User> userPage = userRepository.findAll(pageable);
 		return userPage;
 	}
+	
+	public User createUser(User user) {
+		return userRepository.save(user);
+	}
 }
