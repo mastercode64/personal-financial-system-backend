@@ -45,8 +45,8 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
-		User user = userService.createUser(userDTO.dtoToUser());
+	public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
+		User user = userService.create(userDTO.dtoToUser());
 		URI uri = linkTo(methodOn(UserController.class).findById(user.getId())).toUri();
 		return ResponseEntity.created(uri).build();
 	}
