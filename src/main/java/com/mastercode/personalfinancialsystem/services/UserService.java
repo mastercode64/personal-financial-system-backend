@@ -33,6 +33,17 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	public User update(User user) {
+		User managed = this.findById(user.getId());
+		this.updateUserFields(managed, user);
+		return userRepository.save(managed);
+	}
+	
+	private void updateUserFields(User managed, User newUser) {
+		managed.setNome(newUser.getNome() == null ? managed.getNome() : newUser.getNome());
+		managed.setEmail(newUser.getEmail() == null ? managed.getEmail() : newUser.getEmail());
+	}
+	
 	public void delete(Long id) {		
 		userRepository.delete(this.findById(id));
 	}
