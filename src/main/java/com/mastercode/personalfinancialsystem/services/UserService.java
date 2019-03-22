@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mastercode.personalfinancialsystem.domain.User;
-import com.mastercode.personalfinancialsystem.exceptions.ResourceNotFoundException;
+import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.respository.UserRepository;
 
 @Service
@@ -17,7 +17,7 @@ public class UserService {
 	private UserRepository userRepository;
 
 	public User findById(Long id) {
-		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User " + id + " not found"));
 	}
 
 	public Page<User> findAll(Integer page, Integer size) {

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mastercode.personalfinancialsystem.domain.User;
-import com.mastercode.personalfinancialsystem.exceptions.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.services.UserService;
 
 @RestController
@@ -31,10 +30,8 @@ public class UserController {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
-		try {
-			return new ResponseEntity<User>(userService.findById(id), HttpStatus.OK);
-		} catch (ResourceNotFoundException ex) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		User user = userService.findById(id);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+		
 	}
 }

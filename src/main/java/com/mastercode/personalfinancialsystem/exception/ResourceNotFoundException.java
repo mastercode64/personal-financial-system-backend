@@ -1,4 +1,4 @@
-package com.mastercode.personalfinancialsystem.exceptions;
+package com.mastercode.personalfinancialsystem.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
