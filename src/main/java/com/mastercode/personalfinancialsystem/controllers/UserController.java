@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mastercode.personalfinancialsystem.domain.User;
@@ -31,8 +32,8 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping
-	public ResponseEntity<?> findAllUsers() {
-		var userPage = userService.findAll(0, 10);
+	public ResponseEntity<?> findAllUsers(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+		var userPage = userService.findAll(page, size);
 		List<User> userList = userPage.getContent();
 		return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
 	}
@@ -50,12 +51,12 @@ public class UserController {
 		URI uri = linkTo(methodOn(UserController.class).findById(user.getId())).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable Long id) {
 		User user = userDTO.dtoToUser();
 		user.setId(id);
-		user = userService.update(user);		
+		user = userService.update(user);
 		return ResponseEntity.noContent().build();
 	}
 

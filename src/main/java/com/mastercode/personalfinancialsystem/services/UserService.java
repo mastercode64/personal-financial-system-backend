@@ -1,5 +1,7 @@
 package com.mastercode.personalfinancialsystem.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +23,7 @@ public class UserService {
 	}
 
 	public Page<User> findAll(Integer page, Integer size) {
-		page = page == null ? 0 : page;
-		size = size == null ? 10 : size;
-
-		Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = PageRequest.of(Optional.ofNullable(page).orElse(0), Optional.ofNullable(size).orElse(10));
 		Page<User> userPage = userRepository.findAll(pageable);
 		return userPage;
 	}
