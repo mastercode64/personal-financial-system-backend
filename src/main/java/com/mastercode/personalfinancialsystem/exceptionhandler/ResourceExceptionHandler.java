@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.exception.StandardError;
+import com.mastercode.personalfinancialsystem.exception.UniqueFieldException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -26,4 +27,19 @@ public class ResourceExceptionHandler {
 		
 		return ResponseEntity.status(status).body(error);
 	}
+	
+	@ExceptionHandler(UniqueFieldException.class)
+	public ResponseEntity<?> uniqueField(UniqueFieldException ex, HttpServletRequest request){		
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		StandardError error =	new StandardError(
+				System.currentTimeMillis(),
+				status.value(),
+				"Field is unique",
+				ex.getMessage(),
+				request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(error);
+	}
+	
 }
