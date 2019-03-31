@@ -12,7 +12,7 @@ import com.mastercode.personalfinancialsystem.exception.StandardError;
 import com.mastercode.personalfinancialsystem.exception.UniqueFieldException;
 
 @ControllerAdvice
-public class ResourceExceptionHandler {
+public class CustomExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> notFound(ResourceNotFoundException ex, HttpServletRequest request){		
