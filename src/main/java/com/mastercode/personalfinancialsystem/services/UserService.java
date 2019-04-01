@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mastercode.personalfinancialsystem.domain.User;
+import com.mastercode.personalfinancialsystem.dto.UserDTO;
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.exception.UniqueFieldException;
 import com.mastercode.personalfinancialsystem.respository.UserRepository;
@@ -38,15 +39,16 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public User update(User user) {
-		User managed = this.findById(user.getId());
-		this.updateUserFields(managed, user);
-		return userRepository.save(managed);
+	public User update(UserDTO userDto, Long userId) {
+		User oldUser = this.findById(userId);
+		this.updateUserFields(oldUser, userDto.dtoToUser());
+		return userRepository.save(oldUser);
 	}
 
-	private void updateUserFields(User managed, User newUser) {
-		managed.setName(newUser.getName() == null ? managed.getName() : newUser.getName());
-		managed.setEmail(newUser.getEmail() == null ? managed.getEmail() : newUser.getEmail());
+	private void updateUserFields(User oldUser, User newUser) {
+		oldUser.setName(newUser.getName() == null ? oldUser.getName() : newUser.getName());
+		oldUser.setEmail(newUser.getEmail() == null ? oldUser.getEmail() : newUser.getEmail());
+		oldUser.setPassword(newUser.getPassword() == null ? oldUser.getPassword() : newUser.getPassword());
 	}
 
 	public void delete(Long id) {
