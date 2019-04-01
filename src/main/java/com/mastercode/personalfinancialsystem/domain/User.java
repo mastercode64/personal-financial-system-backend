@@ -8,13 +8,17 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.mastercode.personalfinancialsystem.domain.auditing.AuditableEntity;
 
-@Data
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
-public class User {
+public class User extends AuditableEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
