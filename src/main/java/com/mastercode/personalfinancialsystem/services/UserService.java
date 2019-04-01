@@ -33,7 +33,7 @@ public class UserService {
 	}
 
 	public User create(@Valid User user) {
-		if(userEmailExists(user.getEmail()))
+		if (userEmailExists(user.getEmail()))
 			throw new UniqueFieldException("Email: " + user.getEmail() + " already exists!");
 		return userRepository.save(user);
 	}
@@ -45,7 +45,7 @@ public class UserService {
 	}
 
 	private void updateUserFields(User managed, User newUser) {
-		managed.setNome(newUser.getNome() == null ? managed.getNome() : newUser.getNome());
+		managed.setName(newUser.getName() == null ? managed.getName() : newUser.getName());
 		managed.setEmail(newUser.getEmail() == null ? managed.getEmail() : newUser.getEmail());
 	}
 

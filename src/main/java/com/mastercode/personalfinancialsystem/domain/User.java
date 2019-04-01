@@ -24,7 +24,7 @@ public class User extends AuditableEntity {
 	private Long id;
 
 	@NotBlank
-	private String nome;
+	private String name;
 
 	@Email
 	@NotBlank
@@ -34,8 +34,8 @@ public class User extends AuditableEntity {
 	@NotBlank
 	private String password;
 
-	public User(String nome, String email, String password) {
-		this.nome = nome;
+	public User(String name, String email, String password) {
+		this.name = name;
 		this.email = email;
 		this.password = password;
 	}
