@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mastercode.personalfinancialsystem.domain.auditing.AuditableEntity;
 
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class User extends AuditableEntity {
 	private String email;
 
 	@NotBlank
+	@JsonIgnore
 	private String password;
 
 	public User(String name, String email, String password) {
