@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mastercode.personalfinancialsystem.domain.User;
@@ -21,6 +22,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public User findById(Long id) {
 		return userRepository.findById(id)
@@ -33,9 +37,11 @@ public class UserService {
 		return userPage;
 	}
 
-	public User create(@Valid User user) {
+	public User create(@Valid User user) {		
 		if (userEmailExists(user.getEmail()))
 			throw new UniqueFieldException("Email: " + user.getEmail() + " already exists!");
+		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 
@@ -61,4 +67,5 @@ public class UserService {
 		else
 			return true;
 	}
+
 }
