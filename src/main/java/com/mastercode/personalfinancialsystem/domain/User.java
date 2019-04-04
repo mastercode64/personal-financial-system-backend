@@ -41,6 +41,7 @@ public class User extends AuditableEntity {
 	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
 	private List<Expense> expenses;
 

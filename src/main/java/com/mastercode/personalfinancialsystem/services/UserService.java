@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mastercode.personalfinancialsystem.domain.User;
+import com.mastercode.personalfinancialsystem.domain.UserSecurityDetails;
 import com.mastercode.personalfinancialsystem.dto.UserDTO;
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.exception.UniqueFieldException;
@@ -59,6 +61,17 @@ public class UserService {
 
 	public void delete(Long id) {
 		userRepository.delete(this.findById(id));
+	}
+	
+	public User getUserFromSession() {
+		UserSecurityDetails userDetails = null;
+		try {
+			userDetails = (UserSecurityDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return userDetails.getUser();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
 	}
 
 	private boolean userEmailExists(String email) {
