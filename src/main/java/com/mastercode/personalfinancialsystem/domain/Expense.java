@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.mastercode.personalfinancialsystem.domain.auditing.AuditableEntity;
+import com.mastercode.personalfinancialsystem.utility.Converter;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,20 +22,36 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Expense {
+public class Expense extends AuditableEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotBlank
 	private String description;
-	
+
 	@NotNull
 	private BigDecimal value;
-	
+
 	@ManyToOne(optional = false)
-	private User user;
-	
+	private User creator;
+
+	@ManyToOne(optional = true)
+	private User debtor;
+
+	@NotNull
 	private LocalDateTime date;
+
+	public Expense(String description, String value, User creator, User debtor) {
+		this.description = description;
+		this.value = Converter.stringToBigDecimal(value);
+		this.creator = creator;
+		this.debtor = debtor;
+		this.date = LocalDateTime.now();
+	}
+
+	public void setValue(String value) {
+		this.value = Converter.stringToBigDecimal(value);
+	}
 
 }

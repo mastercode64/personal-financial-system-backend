@@ -42,7 +42,7 @@ public class User extends AuditableEntity {
 	private String password;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "user")
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "creator")
 	private List<Expense> expenses;
 
 	public User(String name, String email, String password) {
