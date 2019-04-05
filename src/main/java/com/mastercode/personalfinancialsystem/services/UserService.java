@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import com.mastercode.personalfinancialsystem.domain.User;
 import com.mastercode.personalfinancialsystem.domain.UserSecurityDetails;
 import com.mastercode.personalfinancialsystem.dto.UserDTO;
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
-import com.mastercode.personalfinancialsystem.exception.UniqueFieldException;
+import com.mastercode.personalfinancialsystem.exception.ValidationErrorException;
 import com.mastercode.personalfinancialsystem.respository.UserRepository;
 
 @Service
@@ -41,7 +42,7 @@ public class UserService {
 
 	public User create(@Valid User user) {		
 		if (userEmailExists(user.getEmail()))
-			throw new UniqueFieldException("Email: " + user.getEmail() + " already exists!");
+			throw new ValidationErrorException("Email: " + user.getEmail() + " already exists!");
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
@@ -69,8 +70,7 @@ public class UserService {
 			userDetails = (UserSecurityDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			return userDetails.getUser();
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
+			throw new AuthenticationCredentialsNotFoundException("User is not authenticated");
 		}
 	}
 

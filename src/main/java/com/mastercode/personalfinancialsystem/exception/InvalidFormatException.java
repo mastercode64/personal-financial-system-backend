@@ -1,13 +1,13 @@
 package com.mastercode.personalfinancialsystem.exception;
 
-public class UniqueFieldException extends RuntimeException {
+public class InvalidFormatException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public UniqueFieldException() {
+	public InvalidFormatException() {
 		super();
 	}
 
-	public UniqueFieldException(String message) {
+	public InvalidFormatException(String message) {
 		super(message);
 	}
 
