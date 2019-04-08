@@ -4,6 +4,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mastercode.personalfinancialsystem.domain.Expense;
@@ -33,10 +35,17 @@ public class ExpenseController {
 		return new ResponseEntity<Expense>(expense, HttpStatus.OK);
 	}
 
+	@GetMapping
+	public ResponseEntity<?> findAllExpenses(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+		List<Expense> expenses = expenseService.findAll(page, size).getContent();
+		return new ResponseEntity<List<Expense>>(expenses, HttpStatus.OK);
+	}
+
 	@PostMapping
 	public ResponseEntity<?> createExpenseForSessionUser(@RequestBody ExpenseDTO expenseDTO) {
 		Expense expense = expenseService.createExpenseForSessionUser(expenseDTO);
 		URI uri = linkTo(methodOn(ExpenseController.class).findById(expense.getId())).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+
 }

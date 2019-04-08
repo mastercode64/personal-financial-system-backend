@@ -5,6 +5,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mastercode.personalfinancialsystem.domain.Expense;
@@ -27,6 +30,13 @@ public class ExpenseService {
 		return expenseRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Expense " + id + " not found"));
 	}
+	
+	public Page<Expense> findAll(Integer page, Integer size) {
+		Pageable pageable = PageRequest.of(Optional.ofNullable(page).orElse(0), Optional.ofNullable(size).orElse(10));
+		Page<Expense> userPage = expenseRepository.findAll(pageable);
+		return userPage;
+	}
+	
 
 	public Expense createExpenseForSessionUser(ExpenseDTO expenseDTO) {
 		User userCreator = userService.getUserFromSession();
