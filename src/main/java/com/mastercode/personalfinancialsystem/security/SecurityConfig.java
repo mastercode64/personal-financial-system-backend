@@ -1,5 +1,8 @@
 package com.mastercode.personalfinancialsystem.security;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    .authorizeRequests()
 		    .antMatchers("/home").permitAll()
 		    .antMatchers(HttpMethod.POST, "/users").permitAll()
-		    .antMatchers("/users/**").authenticated()
+		    .antMatchers("/**").authenticated()
 		    .and()
 		    
 	    .formLogin()	    
