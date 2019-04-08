@@ -61,5 +61,9 @@ public class ExpenseService {
 	public Expense createExpense(@Valid Expense expense) {	
 		return expenseRepository.save(expense);
 	}
+
+	public void delete(Long id) {
+		expenseRepository.delete(this.findById(id));		
+	}
 	
 }
