@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.mastercode.personalfinancialsystem.domain.auditing.AuditableEntity;
-import com.mastercode.personalfinancialsystem.utility.Converter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,16 +41,12 @@ public class Expense extends AuditableEntity {
 	@NotNull
 	private LocalDateTime date;
 
-	public Expense(String description, String value, User creator, User debtor) {
+	public Expense(String description, BigDecimal value, User creator, User debtor) {
 		this.description = description;
-		this.value = Converter.stringToBigDecimal(value);
+		this.value = value;
 		this.creator = creator;
 		this.debtor = debtor;
 		this.date = LocalDateTime.now();
-	}
-
-	public void setValue(String value) {
-		this.value = Converter.stringToBigDecimal(value);
 	}
 
 }

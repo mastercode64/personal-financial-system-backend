@@ -40,11 +40,7 @@ public class ExpenseService {
 
 	public Expense createExpenseForSessionUser(ExpenseDTO expenseDTO) {
 		User userCreator = userService.getUserFromSession();
-		User userDebtor = null;
-		
-		if(expenseDTO.getUserDebtorId() != null) {
-			userDebtor = userService.findById(expenseDTO.getUserDebtorId());
-		}
+		User userDebtor = this.getUserIfNotNull(expenseDTO.getUserDebtorId());
 		
 		if(userCreator.getId() == Optional.ofNullable(userDebtor).map(User::getId).orElse(null))
 			throw new ValidationErrorException("Expense debtor cannot be the creator");
@@ -64,6 +60,37 @@ public class ExpenseService {
 
 	public void delete(Long id) {
 		expenseRepository.delete(this.findById(id));		
+	}
+
+	public Expense update(ExpenseDTO expenseDto, Long expenseId) {
+		Expense oldExpense = this.findById(expenseId);
+		User userDebtor = getUserIfNotNull(expenseDto.getUserDebtorId());
+		User userCreator = oldExpense.getCreator();
+		
+		if(userCreator != null && userCreator.getId() == Optional.ofNullable(userDebtor).map(User::getId).orElse(null))
+			throw new ValidationErrorException("Expense debtor cannot be the creator");
+		
+		Expense newExpense = new Expense();
+		newExpense.setDebtor(userDebtor);
+		newExpense.setDescription(expenseDto.getDescription());
+		newExpense.setValue(expenseDto.getValue());
+		newExpense.setDebtor(userDebtor);
+		
+		this.updateExpenseFields(oldExpense, newExpense);
+		return expenseRepository.save(oldExpense);
+	}
+	
+	private void updateExpenseFields(Expense oldExpense, Expense newExpense) {		
+		oldExpense.setDescription(newExpense.getDescription() == null ? oldExpense.getDescription() : newExpense.getDescription());
+		oldExpense.setValue(newExpense.getValue() == null ? oldExpense.getValue() : newExpense.getValue());
+		oldExpense.setDebtor(newExpense.getDebtor() == null ? oldExpense.getDebtor() : newExpense.getDebtor());
+	}
+	
+	private User getUserIfNotNull(Long userId) {
+		if(userId == null)
+			return null;
+		else
+			return userService.findById(userId);
 	}
 	
 }
