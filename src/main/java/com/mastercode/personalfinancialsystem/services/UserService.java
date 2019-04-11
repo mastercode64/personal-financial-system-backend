@@ -40,11 +40,11 @@ public class UserService {
 		return userPage;
 	}
 
-	public User create(@Valid User user) {		
-		if (userEmailExists(user.getEmail()))
-			throw new ValidationErrorException("Email: " + user.getEmail() + " already exists!");
+	public User create(UserDTO userDto) {		
+		if (userEmailExists(userDto.getEmail()))
+			throw new ValidationErrorException("Email: " + userDto.getEmail() + " already exists!");
 		
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		@Valid User user = new User(userDto.getName(), userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()));
 		return userRepository.save(user);
 	}
 

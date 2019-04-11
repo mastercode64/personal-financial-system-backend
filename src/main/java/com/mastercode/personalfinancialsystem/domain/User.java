@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mastercode.personalfinancialsystem.domain.auditing.AuditableEntity;
@@ -30,6 +31,7 @@ public class User extends AuditableEntity {
 	private Long id;
 
 	@NotBlank
+	@Size(min = 1)
 	private String name;
 
 	@Email

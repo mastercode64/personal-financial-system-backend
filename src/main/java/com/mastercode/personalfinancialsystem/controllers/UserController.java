@@ -6,6 +6,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mastercode.personalfinancialsystem.domain.User;
 import com.mastercode.personalfinancialsystem.dto.UserDTO;
 import com.mastercode.personalfinancialsystem.services.UserService;
+
 
 @RestController
 @RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -45,8 +48,8 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
-		User user = userService.create(userDTO.dtoToUser());
+	public ResponseEntity<?> create(@RequestBody @Valid UserDTO userDTO) {		
+		User user = userService.create(userDTO);
 		URI uri = linkTo(methodOn(UserController.class).findById(user.getId())).toUri();
 		return ResponseEntity.created(uri).build();
 	}
