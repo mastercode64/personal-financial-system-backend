@@ -17,17 +17,17 @@ public class UserDTO {
 	@NotBlank
 	@Size(min = 1)
 	private String name;
-	
+
 	@NotBlank
 	@Email
 	private String email;
 	
-	@NotBlank
 	@Size(min = 6, max = 25)
+	@NotBlank
 	private String password;
 
 	public User dtoToUser() {
 		return new User(this.name, this.email, this.password);
 	}
-
+	
 }

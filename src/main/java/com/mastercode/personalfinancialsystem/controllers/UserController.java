@@ -48,14 +48,14 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody @Valid UserDTO userDTO) {		
+	public ResponseEntity<?> create(@RequestBody @Valid UserDTO userDTO) {
 		User user = userService.create(userDTO);
 		URI uri = linkTo(methodOn(UserController.class).findById(user.getId())).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+	public ResponseEntity<?> update(@RequestBody @Valid UserDTO userDTO, @PathVariable Long id) {
 		userService.update(userDTO, id);
 		return ResponseEntity.noContent().build();
 	}

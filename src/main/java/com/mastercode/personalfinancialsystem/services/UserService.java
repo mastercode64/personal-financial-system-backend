@@ -49,15 +49,16 @@ public class UserService {
 	}
 
 	public User update(UserDTO userDto, Long userId) {
-		User oldUser = this.findById(userId);
-		this.updateUserFields(oldUser, userDto.dtoToUser());
-		return userRepository.save(oldUser);
+		User user = this.findById(userId);
+		user = this.mergeUserFields(user, userDto);		
+		return userRepository.save(user);
 	}
 
-	private void updateUserFields(User oldUser, User newUser) {
-		oldUser.setName(newUser.getName() == null ? oldUser.getName() : newUser.getName());
-		oldUser.setEmail(newUser.getEmail() == null ? oldUser.getEmail() : newUser.getEmail());
-		oldUser.setPassword(newUser.getPassword() == null ? oldUser.getPassword() : newUser.getPassword());
+	private User mergeUserFields(User user, UserDTO dto) {		
+		user.setName(dto.getName());
+		user.setEmail(dto.getEmail());
+		user.setPassword(passwordEncoder.encode(dto.getPassword()));		
+		return user;
 	}
 
 	public void delete(Long id) {
