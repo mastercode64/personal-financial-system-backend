@@ -1,13 +1,12 @@
-package com.mastercode.personalfinancialsystem.domain;
+package com.mastercode.personalfinancialsystem.security;
 
-import java.util.Collection;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mastercode.personalfinancialsystem.domain.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Getter;
+import java.util.Collection;
 
 public class UserSecurityDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;

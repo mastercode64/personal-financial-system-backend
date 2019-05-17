@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mastercode.personalfinancialsystem.domain.User;
-import com.mastercode.personalfinancialsystem.domain.UserSecurityDetails;
+import com.mastercode.personalfinancialsystem.security.UserSecurityDetails;
 import com.mastercode.personalfinancialsystem.dto.UserDTO;
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.exception.ValidationErrorException;
