@@ -1,9 +1,6 @@
 package com.mastercode.personalfinancialsystem.exceptionhandler;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,12 +39,13 @@ public class CustomExceptionHandler {
 	@ExceptionHandler(ValidationErrorException.class)
 	public ResponseEntity<?> customValidationErrorHandler(ValidationErrorException ex, HttpServletRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
-		
+		var errors = Arrays.asList(ex.getMessage());
+
 		StandardError error =	new StandardError(
 				System.currentTimeMillis(),
 				status.value(),
 				"Validation error",
-				ex.getMessage(),
+				errors,
 				request.getRequestURI());
 		
 		return ResponseEntity.status(status).body(error);

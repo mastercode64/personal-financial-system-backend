@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mastercode.personalfinancialsystem.domain.User;
-import com.mastercode.personalfinancialsystem.domain.UserSecurityDetails;
+import com.mastercode.personalfinancialsystem.security.UserSecurityDetails;
 import com.mastercode.personalfinancialsystem.respository.UserRepository;
 
 @Service
