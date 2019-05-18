@@ -29,19 +29,23 @@ public class TokenAuthenticationService {
 
     static Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
+        if (token == null) return null;
 
-        if (token != null) {
+        String user;
+        try {
             // faz parse do token
-            String user = Jwts.parser()
+            user = Jwts.parser()
                     .setSigningKey(SECRET)
-                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                    .parseClaimsJws(token.replace(TOKEN_PREFIX + " ", ""))
                     .getBody()
                     .getSubject();
 
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
-            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return null;
+
+        if (user == null) return null;
+        return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }
 }
