@@ -1,15 +1,13 @@
-package com.mastercode.personalfinancialsystem.services;
+package com.mastercode.personalfinancialsystem.security;
 
+import com.mastercode.personalfinancialsystem.domain.User;
+import com.mastercode.personalfinancialsystem.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.mastercode.personalfinancialsystem.domain.User;
-import com.mastercode.personalfinancialsystem.security.UserSecurityDetails;
-import com.mastercode.personalfinancialsystem.respository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

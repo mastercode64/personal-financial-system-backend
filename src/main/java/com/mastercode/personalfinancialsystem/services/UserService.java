@@ -1,24 +1,19 @@
 package com.mastercode.personalfinancialsystem.services;
 
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.mastercode.personalfinancialsystem.domain.User;
-import com.mastercode.personalfinancialsystem.security.UserSecurityDetails;
 import com.mastercode.personalfinancialsystem.dto.UserDTO;
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.exception.ValidationErrorException;
 import com.mastercode.personalfinancialsystem.respository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -65,15 +60,7 @@ public class UserService {
 		userRepository.delete(this.findById(id));
 	}
 	
-	public User getUserFromSession() {
-		UserSecurityDetails userDetails = null;
-		try {
-			userDetails = (UserSecurityDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			return userDetails.getUser();
-		} catch (Exception ex) {
-			throw new AuthenticationCredentialsNotFoundException("User is not authenticated");
-		}
-	}
+
 
 	private boolean userEmailExists(String email) {
 		if (userRepository.findByEmail(email) == null)

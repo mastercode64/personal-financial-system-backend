@@ -1,6 +1,5 @@
 package com.mastercode.personalfinancialsystem.security;
 
-import com.mastercode.personalfinancialsystem.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

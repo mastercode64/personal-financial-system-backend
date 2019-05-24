@@ -1,5 +1,6 @@
 package com.mastercode.personalfinancialsystem.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,9 +18,12 @@ public class TokenAuthenticationService {
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
 
-    static void addAuthentication(HttpServletResponse response, String username) {
+    static void addAuthentication(HttpServletResponse response, String tokenSubject) {
+
+
         String JWT = Jwts.builder()
-                .setSubject(username)
+                .setSubject(tokenSubject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
@@ -31,21 +35,21 @@ public class TokenAuthenticationService {
         String token = request.getHeader(HEADER_STRING);
         if (token == null) return null;
 
-        String user;
+        Claims jwtClaims = null;
         try {
             // faz parse do token
-            user = Jwts.parser()
+            jwtClaims = Jwts.parser()
                     .setSigningKey(SECRET)
                     .parseClaimsJws(token.replace(TOKEN_PREFIX + " ", ""))
-                    .getBody()
-                    .getSubject();
+                    .getBody();
 
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
 
-        if (user == null) return null;
-        return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+        String tokenSubject = jwtClaims.getSubject();
+        if (tokenSubject == null) return null;
+        return new UsernamePasswordAuthenticationToken(tokenSubject, null, Collections.emptyList());
     }
 }

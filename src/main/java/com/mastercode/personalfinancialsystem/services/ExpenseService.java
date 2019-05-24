@@ -1,21 +1,20 @@
 package com.mastercode.personalfinancialsystem.services;
 
-import java.util.Optional;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.mastercode.personalfinancialsystem.domain.Expense;
 import com.mastercode.personalfinancialsystem.domain.User;
 import com.mastercode.personalfinancialsystem.dto.ExpenseDTO;
 import com.mastercode.personalfinancialsystem.exception.ResourceNotFoundException;
 import com.mastercode.personalfinancialsystem.exception.ValidationErrorException;
 import com.mastercode.personalfinancialsystem.respository.ExpenseRepository;
+import com.mastercode.personalfinancialsystem.security.SessionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
+import java.util.Optional;
 
 @Service
 public class ExpenseService {
@@ -25,6 +24,9 @@ public class ExpenseService {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private SessionService session;
 
 	public Expense findById(Long id) {
 		return expenseRepository.findById(id)
@@ -39,7 +41,7 @@ public class ExpenseService {
 	
 
 	public Expense createExpenseForSessionUser(ExpenseDTO expenseDTO) {
-		User userCreator = userService.getUserFromSession();
+		User userCreator = session.getUserFromSession();
 		User userDebtor = this.getUserIfNotNull(expenseDTO.getUserDebtorId());
 		
 		if(userCreator.getId() == Optional.ofNullable(userDebtor).map(User::getId).orElse(null))
