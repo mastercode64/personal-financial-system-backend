@@ -33,9 +33,10 @@ public class ExpenseService {
 				.orElseThrow(() -> new ResourceNotFoundException("Expense " + id + " not found"));
 	}
 	
-	public Page<Expense> findAll(Integer page, Integer size) {
+	public Page<Expense> findAllFromCurrentUser(Integer page, Integer size) {
 		Pageable pageable = PageRequest.of(Optional.ofNullable(page).orElse(0), Optional.ofNullable(size).orElse(10));
-		Page<Expense> userPage = expenseRepository.findAll(pageable);
+		User userFromSession = session.getUserFromSession();
+		Page<Expense> userPage = expenseRepository.findByCreator(userFromSession, pageable);
 		return userPage;
 	}
 	
