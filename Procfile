@@ -1,1 +1,1 @@
-web: java -jar target/personal-financial-system-1.0.0.war
+web: java -jar target/myapp-1.0.0.jar
