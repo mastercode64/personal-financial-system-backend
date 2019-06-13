@@ -1,0 +1,1 @@
+web: java -jar target/personal-financial-system-1.0.0.war
