@@ -1,1 +1,1 @@
-web: java -jar target/*.war
+web: java -war target/*.war
